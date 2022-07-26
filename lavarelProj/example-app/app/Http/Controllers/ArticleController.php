@@ -33,7 +33,36 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$article = $request->isMethod('put') ? Article::findOrFail($request->article_id) : new Article;
+
+        if ($request->isMethod('put')) {
+            $article = Article::findOrFail($request->article_id);
+            $article->title = $request->title;
+            $article->body = $request->body;
+            $article->save();
+            return new ArticleResource($article);
+
+        }else{
+            $article = new Article;
+            
+            // $validated = $request->validate([
+                //     'title' => 'required',
+                //     'body' => 'required'
+        // ]);
+
+            //Article::query()->create([$request->title, $request->body]);
+          
+            // $article = new Article;
+            // $article->title = $request->title;
+            // $article->body =  $request->body;
+            // $article->save();
+
+            $article = Article::create(['title'=>$request->title , 'body'=>$request->body]);
+            
+            // if($article->save()) {
+            return new ArticleResource($article);
+            // }
+        }
     }
 
     /**
@@ -44,10 +73,18 @@ class ArticleController extends Controller
      */
     public function show($id)   
     {
-        //Get article
-        $article = Article::findOrFail($id);
-        //return single article as resource 
-        return new ArticleResource($article); 
+        if ($id == 1){
+            $id = 2;
+            //Get article
+            $article = Article::findOrFail($id);
+            //return single article as resource 
+            return new ArticleResource($article); 
+        }else{
+            //Get article
+            $article = Article::findOrFail($id);
+            //return single article as resource 
+            return new ArticleResource($article);
+        }
     }
 
 
@@ -59,6 +96,21 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Get articles  
+        if ($id == 1){
+            $id = 2;
+            //Get article
+            $article = Article::findOrFail($id);
+            //return single article as resource 
+            return new ArticleResource($article); 
+        }else{
+            //Get article
+            $article = Article::findOrFail($id);
+            //return single article as resource 
+            if ($article->delete()){
+               return new ArticleResource($article);
+            }
+        } 
     }
-}
+    }
+

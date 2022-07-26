@@ -22,6 +22,14 @@ Route::get('articles', [ArticleController::class, 'index']);
 
 Route::get('article/{id}', [ArticleController::class, 'show']);
 
+Route::post('article', [ArticleController::class, 'store']);
+
+Route::put('article', [ArticleController::class, 'store']);
+
+Route::delete('article/{id}', [ArticleController::class, 'destroy']);
+
+
+
 
 
 
